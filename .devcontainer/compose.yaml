@@ -4,7 +4,9 @@ volumes:
 
 services:
     server:
-        image: mcr.microsoft.com/devcontainers/javascript-node:18
+        build:
+            context: ../
+            dockerfile: .devcontainer/Dockerfile
         ports:
             - 3000:3000
             - 9229:9229
