@@ -1,5 +1,4 @@
 
-```bash
-$ docker-compose up
-```
-then open http://localhost:3000
+- open `.devcontainer/devcontainer.json`
+- click devcontainer icon
+- open http://localhost:3000
