@@ -1,0 +1,41 @@
+volumes:
+    db-data:
+    node_modules:
+
+services:
+    server:
+        image: mcr.microsoft.com/devcontainers/javascript-node:18
+        working_dir: /workspaces
+        ports:
+            - 3000:3000
+            - 9229:9229
+        environment:
+            NODE_ENV: development
+            POSTGRES_HOST: db
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: example
+        depends_on:
+            db:
+                condition: service_healthy
+        command: sh -c "npm install && npm run dev"
+        volumes:
+            - ./:/workspaces:cached
+            - node_modules:/workspaces/node_modules:cached
+
+    db:
+        image: postgres:latest
+        restart: always
+        user: postgres
+        volumes:
+            - db-data:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_DB=example
+            - POSTGRES_PASSWORD=postgres
+        expose:
+            - 5432
+        healthcheck:
+            test: ['CMD', 'pg_isready']
+            interval: 10s
+            timeout: 5s
+            retries: 5
