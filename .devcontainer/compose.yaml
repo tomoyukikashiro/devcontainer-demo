@@ -1,3 +1,4 @@
+version: '3.8'
 volumes:
     db-data:
     node_modules:
@@ -17,10 +18,11 @@ services:
         depends_on:
             db:
                 condition: service_healthy
-        command: sh -c "npm install && npm run dev"
+#        command: sh -c "npm install && npm run dev"
+        command: /bin/sh -c "while sleep 1000; do :; done"
         volumes:
-            - ../:/workspaces:cached
-            - node_modules:/workspaces/node_modules:cached
+            - ../:/workspaces/devcontainer-demo:cached
+            - node_modules:/workspaces/devcontainer-demo/node_modules:cached
 
     db:
         image: postgres:latest
